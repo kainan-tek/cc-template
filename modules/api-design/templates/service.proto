@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+package {{PROJECT_NAME}};
+
+service {{PROJECT_NAME}}Service {
+}

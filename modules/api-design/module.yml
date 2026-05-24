@@ -1,0 +1,31 @@
+name: api-design
+version: 1.0.0
+description: API 设计规范模块
+type: general
+depends: [core]
+conflicts: []
+
+sections:
+  - slot: api-design
+    file: snippets/api-design-rest.md
+    order: 0
+    conditions:
+      - when: api_style == graphql
+        file: snippets/api-design-graphql.md
+      - when: api_style == grpc
+        file: snippets/api-design-grpc.md
+
+variables:
+  - name: api_style
+    prompt: "API 风格"
+    default: "rest"
+    choices: ["rest", "graphql", "grpc"]
+
+templates:
+  - source: templates/openapi.yaml
+    target: openapi.yaml
+    conditions:
+      - when: api_style == graphql
+        source: templates/schema.graphql
+      - when: api_style == grpc
+        source: templates/service.proto

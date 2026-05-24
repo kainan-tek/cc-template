@@ -1,0 +1,28 @@
+name: automation
+version: 1.0.0
+description: 自动化模块
+type: general
+depends: [core]
+conflicts: []
+
+sections:
+  - slot: automation
+    file: snippets/ci-github-actions.md
+    order: 0
+    conditions:
+      - when: ci_platform == gitlab-ci
+        file: snippets/ci-gitlab-ci.md
+
+variables:
+  - name: ci_platform
+    prompt: "CI 平台"
+    default: "github-actions"
+    choices: ["github-actions", "gitlab-ci"]
+
+templates:
+  - source: templates/ci.yml
+    target: .github/workflows/ci.yml
+    conditions:
+      - when: ci_platform == gitlab-ci
+        source: templates/gitlab-ci.yml
+        target: .gitlab-ci.yml
