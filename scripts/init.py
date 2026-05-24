@@ -153,6 +153,10 @@ def run_init(
             print(f"  Skipping already installed modules: {', '.join(skipped)}")
             load_order = new_modules
 
+    if not load_order:
+        print("All modules already installed. Nothing to do.")
+        return []
+
     # 6. 在内存中生成文件
     gen = Generator(all_modules, load_order, variables)
 

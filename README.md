@@ -89,12 +89,12 @@ python scripts/init.py --preset preset-python --non-interactive \
 | 文件 | 共享文件不存在 | 共享文件已存在 |
 |------|-------------|-------------|
 | 行为指导 | 写 `CLAUDE.md` | 写 `CLAUDE.local.md`（已有时询问追加/覆盖） |
-| 权限配置 | 写 `.claude/settings.json` | 写 `.claude/settings.local.json`（已有时跳过） |
+| 权限配置 | 写 `.claude/settings.json` | 深度合并到 `.claude/settings.json`（只加不删） |
 | `.pre-commit-config.yaml` | 创建 | repo URL 去重后追加 |
 | `.gitignore` | 创建 | 行级去重后追加 |
 | 其他模板文件 | 创建 | 跳过 |
 
-> `CLAUDE.md`/`settings.json` 提交 git（团队共享）；`CLAUDE.local.md`/`settings.local.json` gitignored（个人本地）。
+> `CLAUDE.md`/`settings.json` 提交 git（团队共享）；`CLAUDE.local.md` gitignored（个人本地）。
 
 ## 预设
 

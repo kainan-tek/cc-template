@@ -123,7 +123,7 @@ class Merger:
             for _order, _mod_name, _mod_ver, marked in entries:
                 parts.append(marked)
 
-        return "\n\n".join(parts)
+        return "\n\n".join(p.strip() for p in parts)
 
     # ── settings.json 合并 ───────────────────────────────────
 

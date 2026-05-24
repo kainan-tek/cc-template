@@ -206,7 +206,7 @@ sections、templates 和 pre_commit_hooks 均支持 `conditions` 按变量值选
 
 ### 已有项目接入策略
 
-自动判断写入目标：共享文件（`CLAUDE.md`/`settings.json`）不存在时写共享文件，存在时自动回退到 local 文件（`CLAUDE.local.md`/`settings.local.json`）。
+自动判断写入目标：`CLAUDE.md` 不存在时写共享文件，存在时写 `CLAUDE.local.md`；`settings.json` 无论是否存在都直接写（已有时深度合并）。
 
 | 策略 | 行为 |
 |------|------|
@@ -217,7 +217,7 @@ sections、templates 和 pre_commit_hooks 均支持 `conditions` 按变量值选
 
 | 文件类型 | 已有文件处理 |
 |---------|------------|
-| settings.json / settings.local.json | 不覆盖，输出提示 |
+| settings.json | 深度合并：读取已有配置，与新模块配置递归合并（只加不删），写回 settings.json |
 | .pre-commit-config.yaml | 安全追加：检测已有 repos，按 repo URL 去重后追加新条目 |
 | .gitignore | 安全追加：行级去重后追加新条目 |
 | 其他模板文件 | 不覆盖，仅在文件不存在时生成，输出提示 |

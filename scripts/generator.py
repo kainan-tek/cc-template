@@ -91,21 +91,20 @@ class Generator:
 
     def _write_settings(self, target_dir: Path, dry_run: bool) -> None:
         settings_dir = target_dir / ".claude"
-        shared = settings_dir / "settings.json"
-
-        # 自动判断写入目标：共享文件不存在时写共享文件，存在时写 local 文件
-        if not shared.exists():
-            target = shared
-        else:
-            target = settings_dir / "settings.local.json"
-
-        if target.exists():
-            print(f"  Skip: {target} already exists")
-            return
+        target = settings_dir / "settings.json"
 
         merged = self.merger.merge_settings()
         if not merged:
             return
+
+        # 已有 settings.json 时深度合并（非破坏性：只加不删）
+        existing: dict = {}
+        if target.exists():
+            try:
+                existing = json.loads(target.read_text(encoding="utf-8"))
+            except (json.JSONDecodeError, OSError):
+                print(f"  Warning: failed to parse {target}, will overwrite")
+            merged = Merger._deep_merge(existing, merged)
 
         if not dry_run:
             settings_dir.mkdir(parents=True, exist_ok=True)

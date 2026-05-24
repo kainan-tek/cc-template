@@ -128,7 +128,7 @@ class TestGenerator:
         assert not (target / ".claude" / "settings.local.json").exists()
 
     def test_auto_writes_local_when_shared_exists(self, tmp_path):
-        """共享文件已存在时自动写 local 文件"""
+        """共享文件已存在时，settings.json 深度合并，CLAUDE.md 写 local 文件"""
         core = _make_core_module(tmp_path)
         target = tmp_path / "output"
         target.mkdir()
@@ -145,12 +145,15 @@ class TestGenerator:
 
         # 原有共享文件不变
         assert (target / "CLAUDE.md").read_text(encoding="utf-8") == "existing team config"
-        assert (target / ".claude" / "settings.json").read_text(encoding="utf-8") == "{}"
+        # settings.json 被深度合并（原有 {} + 新模块配置）
+        settings = json.loads((target / ".claude" / "settings.json").read_text(encoding="utf-8"))
+        assert "permissions" in settings
 
         # 新内容写入 local 文件
         assert (target / "CLAUDE.local.md").exists()
         assert "test-api" in (target / "CLAUDE.local.md").read_text(encoding="utf-8")
-        assert (target / ".claude" / "settings.local.json").exists()
+        # 不再自动写 settings.local.json
+        assert not (target / ".claude" / "settings.local.json").exists()
 
     def test_local_file_exists_append(self, tmp_path):
         """CLAUDE.local.md 已存在时按策略追加"""
