@@ -1,7 +1,5 @@
 ## 自动化
 
-### GitHub Actions 规范
-
 - Workflow 文件放在 `.github/workflows/`
 - 命名：`ci.yml`、`release.yml`
 - 触发条件明确：push 分支、PR、tag

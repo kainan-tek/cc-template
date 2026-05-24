@@ -16,18 +16,20 @@ class Module:
     description: str
     type: str  # core | general | language
     depends: list[str] = field(default_factory=list)
-    conflicts: list[str] = field(default_factory=list)
     sections: list[dict[str, Any]] = field(default_factory=list)
     variables: list[dict[str, Any]] = field(default_factory=list)
     templates: list[dict[str, Any]] = field(default_factory=list)
     pre_commit_hooks: list[dict[str, Any]] = field(default_factory=list)
     gitignore_entries: list[str] = field(default_factory=list)
+    settings: dict[str, Any] = field(default_factory=dict)
     commands: list[dict[str, Any]] = field(default_factory=list)
     path: Path = field(default_factory=Path)
 
     @property
     def settings_snippet_path(self) -> Path | None:
-        p = self.path / "config" / "settings.json.snippet"
+        if not self.settings:
+            return None
+        p = self.path / self.settings["file"]
         return p if p.exists() else None
 
 
@@ -57,18 +59,34 @@ class ModuleLoader:
         with open(yml_path, "r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
 
+        # Schema 验证
+        REQUIRED_FIELDS = {"name"}
+        VALID_FIELDS = {
+            "name", "version", "description", "type", "depends",
+            "sections", "variables", "templates", "pre_commit_hooks",
+            "gitignore_entries", "settings", "commands",
+        }
+
+        missing = REQUIRED_FIELDS - set(data.keys())
+        if missing:
+            raise ValueError(f"Missing required fields in {yml_path}: {missing}")
+
+        unknown = set(data.keys()) - VALID_FIELDS
+        if unknown:
+            print(f"  Warning: unknown fields in {yml_path}: {unknown}")
+
         return Module(
             name=data["name"],
             version=data.get("version", "0.0.0"),
             description=data.get("description", ""),
             type=data.get("type", "general"),
             depends=data.get("depends", []),
-            conflicts=data.get("conflicts", []),
             sections=data.get("sections", []),
             variables=data.get("variables", []),
             templates=data.get("templates", []),
             pre_commit_hooks=data.get("pre_commit_hooks", []),
             gitignore_entries=data.get("gitignore_entries", []),
+            settings=data.get("settings", {}),
             commands=data.get("commands", []),
             path=mod_dir,
         )

@@ -3,7 +3,6 @@ version: 1.0.0
 description: 测试规范模块
 type: general
 depends: [core]
-conflicts: []
 
 sections:
   - slot: testing

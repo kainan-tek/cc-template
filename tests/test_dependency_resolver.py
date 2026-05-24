@@ -5,11 +5,10 @@ from dependency_resolver import DependencyResolver
 
 
 def _make_module(name: str, type: str = "general",
-                 depends: list[str] | None = None,
-                 conflicts: list[str] | None = None) -> Module:
+                 depends: list[str] | None = None) -> Module:
     return Module(
         name=name, version="1.0.0", description="", type=type,
-        depends=depends or [], conflicts=conflicts or [],
+        depends=depends or [],
     )
 
 
@@ -47,16 +46,17 @@ class TestDependencyResolver:
         result = resolver.resolve(["testing", "lang-python"])
         assert result.index("testing") < result.index("lang-python")
 
-    def test_conflict_detection(self):
-        """冲突模块不可同时选中"""
+    def test_multi_language_coexist(self):
+        """多语言模块可同时选中"""
         modules = {
             "core": _make_module("core", "core"),
-            "lang-python": _make_module("lang-python", "language", depends=["core"], conflicts=["lang-cpp"]),
-            "lang-cpp": _make_module("lang-cpp", "language", depends=["core"], conflicts=["lang-python"]),
+            "lang-python": _make_module("lang-python", "language", depends=["core"]),
+            "lang-cpp": _make_module("lang-cpp", "language", depends=["core"]),
         }
         resolver = DependencyResolver(modules)
-        with pytest.raises(ValueError, match="[Cc]onflict"):
-            resolver.resolve(["lang-python", "lang-cpp"])
+        result = resolver.resolve(["lang-python", "lang-cpp"])
+        assert "lang-python" in result
+        assert "lang-cpp" in result
 
     def test_circular_dependency_detection(self):
         """循环依赖报错"""

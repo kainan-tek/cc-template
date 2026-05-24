@@ -1,7 +1,7 @@
 [project]
-name = "cc-project-template"
+name = "cc-template"
 version = "0.1.0"
-description = "Claude Code 项目开发工程模板"
+description = "Claude Code 项目工程模板生成工具"
 requires-python = ">=3.10"
 dependencies = [
     "pyyaml>=6.0",

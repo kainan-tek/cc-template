@@ -66,6 +66,10 @@ class Merger:
         if not match:
             return False
         var_name, expected = match.group(1), match.group(2).strip()
+        # 去除值两端的引号，兼容 "graphql" 和 'graphql' 写法
+        if (expected.startswith('"') and expected.endswith('"')) or \
+           (expected.startswith("'") and expected.endswith("'")):
+            expected = expected[1:-1]
         if var_name not in self.variables:
             print(f"  Warning: condition references undefined variable '{var_name}'")
             return False
@@ -95,11 +99,10 @@ class Merger:
                 content = snippet_path.read_text(encoding="utf-8")
                 content = self._replace_variables(content)
 
-                # 添加更新标记
+                # 添加更新标记（仅开始标记，下一个标记或 EOF 为天然边界）
                 marked = (
                     f"<!-- module:{mod.name}:{mod.version}:{slot} -->\n"
-                    f"{content}\n"
-                    f"<!-- /module:{mod.name}:{mod.version}:{slot} -->"
+                    f"{content}"
                 )
                 sections[slot].append((order, mod.name, mod.version, marked))
 
@@ -260,7 +263,11 @@ class Merger:
 
         for entry in new_entries:
             stripped = entry.strip()
-            if stripped and stripped not in seen:
+            if not stripped:
+                # 空行：直接追加（用于分组间隔）
+                result_lines.append("")
+                continue
+            if stripped not in seen:
                 seen.add(stripped)
                 result_lines.append(entry)
 

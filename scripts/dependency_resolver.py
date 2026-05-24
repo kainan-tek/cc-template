@@ -2,6 +2,8 @@
 """依赖解析器：拓扑排序 + 冲突检测"""
 from __future__ import annotations
 
+from collections import deque
+
 from module_loader import Module
 
 TYPE_ORDER = {"core": 0, "general": 1, "language": 2}
@@ -32,9 +34,6 @@ class DependencyResolver:
             needed.add("core")
             needed = self._resolve_deps(needed)
 
-        # 冲突检测
-        self._check_conflicts(needed)
-
         # 拓扑排序
         return self._topological_sort(needed)
 
@@ -58,15 +57,6 @@ class DependencyResolver:
                         changed = True
         return needed
 
-    def _check_conflicts(self, needed: set[str]) -> None:
-        for name in needed:
-            mod = self.modules[name]
-            for conflict in mod.conflicts:
-                if conflict in needed:
-                    raise ValueError(
-                        f"Conflict: module '{name}' conflicts with '{conflict}'"
-                    )
-
     def _topological_sort(self, needed: set[str]) -> list[str]:
         # Kahn's algorithm
         in_degree: dict[str, int] = {n: 0 for n in needed}
@@ -80,14 +70,14 @@ class DependencyResolver:
                     in_degree[name] += 1
 
         # 初始零入度节点按 type + name 排序
-        queue = sorted(
+        queue = deque(sorted(
             [n for n in needed if in_degree[n] == 0],
             key=lambda n: (TYPE_ORDER.get(self.modules[n].type, 99), n),
-        )
+        ))
 
         result: list[str] = []
         while queue:
-            node = queue.pop(0)
+            node = queue.popleft()
             result.append(node)
             for neighbor in sorted(
                 adj[node],
@@ -96,7 +86,8 @@ class DependencyResolver:
                 in_degree[neighbor] -= 1
                 if in_degree[neighbor] == 0:
                     queue.append(neighbor)
-                    queue.sort(key=lambda n: (TYPE_ORDER.get(self.modules[n].type, 99), n))
+                    # 保持优先队列有序
+                    queue = deque(sorted(queue, key=lambda n: (TYPE_ORDER.get(self.modules[n].type, 99), n)))
 
         if len(result) != len(needed):
             raise ValueError("Circular dependency detected")

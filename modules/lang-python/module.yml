@@ -3,7 +3,6 @@ version: 1.0.0
 description: Python 开发规范模块
 type: language
 depends: [core]
-conflicts: [lang-cpp, lang-shell]
 
 sections:
   - slot: coding-standards
@@ -31,14 +30,9 @@ variables:
 templates:
   - source: templates/pyproject.toml
     target: pyproject.toml
-  - source: templates/Makefile
-    target: Makefile
 
-pre_commit_hooks:
-  - file: hooks/ruff.yaml
-    conditions:
-      - when: formatter == black
-        file: hooks/black.yaml
+settings:
+  file: config/settings.json.snippet
 
 gitignore_entries:
   - "__pycache__/"

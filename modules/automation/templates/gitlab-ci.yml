@@ -3,7 +3,7 @@ stages:
 
 test:
   stage: test
-  image: python:3.12
+  image: {{CI_IMAGE}}
   script:
-    - pip install -e ".[dev]"
-    - pytest
+    - {{INSTALL_CMD}}
+    - {{TEST_CMD}}

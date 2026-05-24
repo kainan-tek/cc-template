@@ -3,7 +3,6 @@ version: 1.0.0
 description: API 设计规范模块
 type: general
 depends: [core]
-conflicts: []
 
 sections:
   - slot: api-design
@@ -27,5 +26,7 @@ templates:
     conditions:
       - when: api_style == graphql
         source: templates/schema.graphql
+        target: schema.graphql
       - when: api_style == grpc
         source: templates/service.proto
+        target: service.proto

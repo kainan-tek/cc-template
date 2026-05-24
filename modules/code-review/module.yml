@@ -3,7 +3,6 @@ version: 1.0.0
 description: 代码审查模块
 type: general
 depends: [core, git-convention]
-conflicts: []
 
 sections:
   - slot: code-review

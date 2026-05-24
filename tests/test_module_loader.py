@@ -11,7 +11,7 @@ class TestModuleLoader:
         mod_dir.mkdir()
         (mod_dir / "module.yml").write_text(
             "name: core\nversion: 1.0.0\ndescription: Core module\ntype: core\n"
-            "depends: []\nconflicts: []\n"
+            "depends: []\n"
         )
         loader = ModuleLoader(tmp_path)
         modules = loader.load_all()
@@ -25,7 +25,7 @@ class TestModuleLoader:
         mod_dir.mkdir()
         (mod_dir / "module.yml").write_text(
             "name: core\nversion: 1.0.0\ndescription: Core\ntype: core\n"
-            "depends: []\nconflicts: []\n"
+            "depends: []\n"
             "sections:\n"
             "  - slot: coding-standards\n"
             "    file: snippets/coding-standards.md\n"
@@ -42,7 +42,7 @@ class TestModuleLoader:
         mod_dir.mkdir()
         (mod_dir / "module.yml").write_text(
             "name: lang-python\nversion: 1.0.0\ndescription: Python\ntype: language\n"
-            "depends: [core]\nconflicts: [lang-cpp]\n"
+            "depends: [core]\n"
             "variables:\n"
             "  - name: formatter\n"
             "    prompt: 'Formatter'\n"

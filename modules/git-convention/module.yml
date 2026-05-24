@@ -3,7 +3,6 @@ version: 1.0.0
 description: Git 规范模块
 type: general
 depends: [core]
-conflicts: []
 
 sections:
   - slot: git-convention
@@ -16,9 +15,8 @@ variables:
     default: "en"
     choices: ["en", "zh"]
 
-templates:
-  - source: templates/pre-commit-config.yaml
-    target: .pre-commit-config.yaml
+pre_commit_hooks:
+  - file: hooks/conventional-pre-commit.yaml
 
 commands:
   - name: commit

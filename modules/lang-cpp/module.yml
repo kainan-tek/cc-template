@@ -3,7 +3,6 @@ version: 1.0.0
 description: C++ 开发规范模块
 type: language
 depends: [core]
-conflicts: [lang-python, lang-shell]
 
 sections:
   - slot: coding-standards
@@ -12,6 +11,11 @@ sections:
   - slot: testing
     file: snippets/testing.md
     order: 100
+    conditions:
+      - when: test_framework == gtest
+        file: snippets/testing.gtest.md
+      - when: test_framework == catch2
+        file: snippets/testing.catch2.md
 
 variables:
   - name: test_framework
@@ -27,8 +31,8 @@ templates:
   - source: templates/clang-tidy
     target: .clang-tidy
 
-pre_commit_hooks:
-  - file: hooks/clang-format.yaml
+settings:
+  file: config/settings.json.snippet
 
 gitignore_entries:
   - "build/"

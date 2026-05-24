@@ -3,7 +3,6 @@ version: 1.0.0
 description: Shell 开发规范模块
 type: language
 depends: [core]
-conflicts: [lang-python, lang-cpp]
 
 sections:
   - slot: coding-standards
@@ -13,8 +12,15 @@ sections:
     file: snippets/testing.md
     order: 100
 
+settings:
+  file: config/settings.json.snippet
+
 pre_commit_hooks:
   - file: hooks/shellcheck.yaml
+
+gitignore_entries:
+  - "*.log"
+  - "*.tmp"
 
 commands:
   - name: bats

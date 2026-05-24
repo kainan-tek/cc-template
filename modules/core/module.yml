@@ -3,7 +3,6 @@ version: 1.0.0
 description: 核心模块（必选）
 type: core
 depends: []
-conflicts: []
 
 sections:
   - slot: project-info
@@ -31,13 +30,25 @@ variables:
     default: ""
 
 templates:
-  - source: templates/gitignore
-    target: .gitignore
   - source: templates/README.md
     target: README.md
 
+settings:
+  file: config/settings.json.snippet
+
 gitignore_entries:
+  - "# Environment"
   - ".env"
+  - ""
+  - "# Build artifacts"
   - "dist/"
   - "build/"
   - "*.egg-info/"
+  - ""
+  - "# IDE"
+  - ".vscode/"
+  - ".idea/"
+  - ""
+  - "# Claude Code local settings (personal preferences, not for git)"
+  - ".claude/settings.local.json"
+  - "CLAUDE.local.md"
