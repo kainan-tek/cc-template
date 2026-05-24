@@ -57,3 +57,69 @@ class TestInitIntegration:
         )
 
         assert not (target / "CLAUDE.md").exists()
+
+
+class TestEndToEnd:
+    def test_preset_python_generates_all_files(self, tmp_path):
+        """preset-python 生成所有预期文件"""
+        from conftest import MODULES_DIR, PRESETS_DIR
+        if not MODULES_DIR.exists():
+            pytest.skip("modules directory not yet created")
+
+        target = tmp_path / "my-api"
+        run_init(
+            target_dir=target,
+            modules_dir=MODULES_DIR,
+            presets_dir=PRESETS_DIR,
+            preset="preset-python",
+            non_interactive=True,
+            cli_vars={
+                "PROJECT_NAME": "my-api",
+                "PROJECT_DESCRIPTION": "My API project",
+                "TECH_STACK": "Python",
+            },
+        )
+
+        # CLAUDE.md
+        assert (target / "CLAUDE.md").exists()
+        content = (target / "CLAUDE.md").read_text(encoding="utf-8")
+        assert "my-api" in content
+        assert "Python 编码规范" in content
+        assert "Git 规范" in content
+
+        # settings.json
+        assert (target / ".claude" / "settings.json").exists()
+        settings = json.loads((target / ".claude" / "settings.json").read_text(encoding="utf-8"))
+        assert "Bash(pytest)" in settings["permissions"]["allow"]
+
+        # .pre-commit-config.yaml
+        assert (target / ".pre-commit-config.yaml").exists()
+
+        # .gitignore
+        assert (target / ".gitignore").exists()
+        gitignore = (target / ".gitignore").read_text(encoding="utf-8")
+        assert "__pycache__/" in gitignore
+
+        # commands
+        assert (target / ".claude" / "commands" / "commit.md").exists()
+        assert (target / ".claude" / "commands" / "pytest.md").exists()
+
+        # templates
+        assert (target / "pyproject.toml").exists()
+
+    def test_conflict_detection_e2e(self, tmp_path):
+        """冲突模块报错"""
+        from conftest import MODULES_DIR, PRESETS_DIR
+        if not MODULES_DIR.exists():
+            pytest.skip("modules directory not yet created")
+
+        target = tmp_path / "my-project"
+        with pytest.raises(ValueError, match="[Cc]onflict"):
+            run_init(
+                target_dir=target,
+                modules_dir=MODULES_DIR,
+                presets_dir=PRESETS_DIR,
+                modules=["lang-python", "lang-cpp"],
+                non_interactive=True,
+                cli_vars={"PROJECT_NAME": "test", "PROJECT_DESCRIPTION": "test", "TECH_STACK": "test"},
+            )

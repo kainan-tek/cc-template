@@ -1,0 +1,4 @@
+name: preset-minimal
+description: 最小配置（仅 core）
+modules:
+  - core

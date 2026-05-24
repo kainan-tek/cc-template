@@ -1,0 +1,9 @@
+name: preset-python
+description: Python 项目完整配置
+modules:
+  - core
+  - git-convention
+  - testing
+  - code-review
+  - security
+  - lang-python
