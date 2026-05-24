@@ -1,0 +1,7 @@
+repo: local
+hooks:
+  - id: review-reminder
+    name: Review reminder
+    entry: echo "Reminder: Please review your changes before pushing"
+    language: system
+    stages: [pre-push]

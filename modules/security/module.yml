@@ -1,0 +1,23 @@
+name: security
+version: 1.0.0
+description: 安全规范模块
+type: general
+depends: [core]
+conflicts: []
+
+sections:
+  - slot: security
+    file: snippets/security.md
+    order: 0
+
+pre_commit_hooks:
+  - file: hooks/gitleaks.yaml
+
+gitignore_entries:
+  - "*.key"
+  - "*.pem"
+  - ".env"
+
+templates:
+  - source: templates/env.example
+    target: .env.example

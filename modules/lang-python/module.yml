@@ -1,0 +1,51 @@
+name: lang-python
+version: 1.0.0
+description: Python 开发规范模块
+type: language
+depends: [core]
+conflicts: [lang-cpp, lang-shell]
+
+sections:
+  - slot: coding-standards
+    file: snippets/coding-standards.md
+    order: 100
+  - slot: testing
+    file: snippets/testing.md
+    order: 100
+    conditions:
+      - when: test_framework == pytest
+        file: snippets/testing.pytest.md
+      - when: test_framework == unittest
+        file: snippets/testing.unittest.md
+
+variables:
+  - name: formatter
+    prompt: "Python 格式化工具"
+    default: "ruff"
+    choices: ["ruff", "black"]
+  - name: test_framework
+    prompt: "测试框架"
+    default: "pytest"
+    choices: ["pytest", "unittest"]
+
+templates:
+  - source: templates/pyproject.toml
+    target: pyproject.toml
+  - source: templates/Makefile
+    target: Makefile
+
+pre_commit_hooks:
+  - file: hooks/ruff.yaml
+    conditions:
+      - when: formatter == black
+        file: hooks/black.yaml
+
+gitignore_entries:
+  - "__pycache__/"
+  - "*.pyc"
+  - ".pytest_cache/"
+  - ".ruff_cache/"
+
+commands:
+  - name: pytest
+    file: config/commands/pytest.md
