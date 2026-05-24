@@ -1,0 +1,41 @@
+name: lang-cpp
+version: 1.0.0
+description: C++ 开发规范模块
+type: language
+depends: [core]
+conflicts: [lang-python, lang-shell]
+
+sections:
+  - slot: coding-standards
+    file: snippets/coding-standards.md
+    order: 100
+  - slot: testing
+    file: snippets/testing.md
+    order: 100
+
+variables:
+  - name: test_framework
+    prompt: "测试框架"
+    default: "gtest"
+    choices: ["gtest", "catch2"]
+
+templates:
+  - source: templates/CMakeLists.txt
+    target: CMakeLists.txt
+  - source: templates/clang-format
+    target: .clang-format
+  - source: templates/clang-tidy
+    target: .clang-tidy
+
+pre_commit_hooks:
+  - file: hooks/clang-format.yaml
+
+gitignore_entries:
+  - "build/"
+  - "cmake-build-*/"
+  - "*.o"
+  - "*.a"
+
+commands:
+  - name: ctest
+    file: config/commands/ctest.md

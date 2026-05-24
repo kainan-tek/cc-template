@@ -1,0 +1,25 @@
+name: lang-shell
+version: 1.0.0
+description: Shell 开发规范模块
+type: language
+depends: [core]
+conflicts: [lang-python, lang-cpp]
+
+sections:
+  - slot: coding-standards
+    file: snippets/coding-standards.md
+    order: 100
+  - slot: testing
+    file: snippets/testing.md
+    order: 100
+
+pre_commit_hooks:
+  - file: hooks/shellcheck.yaml
+
+commands:
+  - name: bats
+    file: config/commands/bats.md
+
+templates:
+  - source: templates/script-template.sh
+    target: scripts/main.sh
