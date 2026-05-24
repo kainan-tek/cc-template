@@ -1,0 +1,25 @@
+name: git-convention
+version: 1.0.0
+description: Git 规范模块
+type: general
+depends: [core]
+conflicts: []
+
+sections:
+  - slot: git-convention
+    file: snippets/git-convention.md
+    order: 0
+
+variables:
+  - name: commit_lang
+    prompt: "Commit message 语言"
+    default: "en"
+    choices: ["en", "zh"]
+
+templates:
+  - source: templates/pre-commit-config.yaml
+    target: .pre-commit-config.yaml
+
+commands:
+  - name: commit
+    file: config/commands/commit.md

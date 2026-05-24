@@ -1,0 +1,43 @@
+name: core
+version: 1.0.0
+description: 核心模块（必选）
+type: core
+depends: []
+conflicts: []
+
+sections:
+  - slot: project-info
+    file: snippets/project-info.md
+    order: 0
+  - slot: behavior-guidelines
+    file: snippets/behavior-guidelines.md
+    order: 0
+  - slot: coding-standards
+    file: snippets/coding-standards.md
+    order: 0
+  - slot: testing
+    file: snippets/testing.md
+    order: 0
+
+variables:
+  - name: PROJECT_NAME
+    prompt: "项目名称"
+    default: ""
+  - name: PROJECT_DESCRIPTION
+    prompt: "项目描述"
+    default: ""
+  - name: TECH_STACK
+    prompt: "技术栈"
+    default: ""
+
+templates:
+  - source: templates/gitignore
+    target: .gitignore
+  - source: templates/README.md
+    target: README.md
+
+gitignore_entries:
+  - ".env"
+  - "dist/"
+  - "build/"
+  - "*.egg-info/"
