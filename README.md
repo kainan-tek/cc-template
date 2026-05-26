@@ -38,8 +38,8 @@ python scripts/init.py /path/to/new-project --preset preset-minimal
 |------|------|------|
 | core | core（必选） | 行为准则（Karpathy 四原则）、通用编码规范、项目信息模板 |
 | git-convention | general | Conventional Commits 规范、branch 命名、commit-msg hook |
-| testing | general | 测试策略、命名规范 `test_<功能>_<场景>_<预期>`、覆盖率要求 |
-| code-review | general | 审查标准、PR 描述模板、pre-push 提醒 |
+| testing | general | 测试策略（覆盖率、比例建议）、回归测试要求 |
+| code-review | general | 审查标准、问题分类、PR 内容要求 |
 | api-design | general | 按 `api_style` 变量选择 REST/GraphQL/gRPC 规范 |
 | automation | general | 按 `ci_platform` 变量选择 GitHub Actions/GitLab CI、MCP 服务器配置 |
 | security | general | 安全编码准则、gitleaks 密钥检测、`.env.example` 模板 |

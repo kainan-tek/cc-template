@@ -5,9 +5,9 @@ type: general
 depends: [core]
 
 sections:
-  - slot: testing
+  - slot: testing-strategy
     file: snippets/testing.md
-    order: 50
+    order: 0
 
 commands:
   - name: test-run

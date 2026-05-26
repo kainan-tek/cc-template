@@ -150,24 +150,25 @@ modules:
 
 ### 章节定义
 
-预定义 9 个核心章节，按以下顺序组织：
+预定义 10 个核心章节，按以下顺序组织：
 
 | 顺序 | 章节 | 贡献模块 |
 |------|------|---------|
 | 1 | 项目信息 | core |
 | 2 | 行为准则 | core（Karpathy 四原则） |
 | 3 | 编码规范 | core + 语言模块 |
-| 4 | 测试规范 | core + testing + 语言模块 |
-| 5 | Git 规范 | git-convention |
-| 6 | 代码审查 | code-review |
-| 7 | API 设计 | api-design |
-| 8 | 安全规范 | security |
-| 9 | 自动化 | automation |
+| 4 | 测试规范 | core + 语言模块 |
+| 5 | 测试策略 | testing |
+| 6 | Git 规范 | git-convention |
+| 7 | 代码审查 | code-review |
+| 8 | API 设计 | api-design |
+| 9 | 安全规范 | security |
+| 10 | 自动化 | automation |
 
 - 没有模块贡献的章节不出现
 - 多模块贡献同一章节时，按 `order` 排序；同 order 按模块名字母序
 - 语言模块的片段标题自带语言标识（如 `### Python 代码规范`），自然分区
-- **章节扩展**：若 module.yml 的 sections 中使用了非预定义 slot 名，该 snippet 作为新章节追加到 9 个核心章节之后，按 order 排序。多个模块使用相同自定义 slot 名时，合并为同一章节（按 order 排序），与预定义章节的合并规则一致。自定义章节的标题由 snippet 文件内容的首行 `## ` 标题决定
+- **章节扩展**：若 module.yml 的 sections 中使用了非预定义 slot 名，该 snippet 作为新章节追加到 10 个核心章节之后，按 order 排序。多个模块使用相同自定义 slot 名时，合并为同一章节（按 order 排序），与预定义章节的合并规则一致。自定义章节的标题由 snippet 文件内容的首行 `## ` 标题决定
 
 ### 条件机制
 
@@ -259,7 +260,7 @@ CLAUDE.md 行为准则基于 Andrej Karpathy 的 LLM 编码观察，四个原则
 | 项目 | 内容 |
 |------|------|
 | type | general |
-| snippets | 测试策略（覆盖率 ≥ 80%、单元/集成/E2E 比例建议）、命名规范 `test_<功能>_<场景>_<预期>`、Bug 修复加回归测试、不为测试而测试 |
+| snippets | 测试策略（覆盖率 ≥ 80%、单元/集成/E2E 比例建议）、Bug 修复加回归测试、不为测试而测试 |
 | config/commands | `/test-run`：运行测试并分析失败原因 |
 | depends | core |
 
@@ -268,7 +269,7 @@ CLAUDE.md 行为准则基于 Andrej Karpathy 的 LLM 编码观察，四个原则
 | 项目 | 内容 |
 |------|------|
 | type | general |
-| snippets | 审查标准（正确性 > 安全性 > 可维护性 > 其他）、PR 描述模板（变更说明、影响范围、测试验证） |
+| snippets | 审查标准（正确性 > 安全性 > 可维护性 > 其他）、问题分类（严重/建议/可选）、PR 内容要求 |
 | pre_commit_hooks | pre-push 提醒检查 |
 | config/commands | `/review`：对当前 diff 做 review |
 | depends | core, git-convention |

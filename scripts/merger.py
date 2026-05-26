@@ -17,6 +17,7 @@ SECTION_ORDER = [
     "behavior-guidelines",
     "coding-standards",
     "testing",
+    "testing-strategy",
     "git-convention",
     "code-review",
     "api-design",
