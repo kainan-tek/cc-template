@@ -46,6 +46,7 @@ python scripts/init.py /path/to/new-project --preset preset-minimal
 | lang-python | language | Python 编码规范、pytest/unittest、ruff/black 格式化 |
 | lang-cpp | language | C++ 编码规范、clang-format |
 | lang-shell | language | Shell 编码规范、ShellCheck、bats 测试 |
+| lang-rust | language | Rust 编码规范、cargo fmt/clippy |
 
 ## 使用方式
 
@@ -104,6 +105,7 @@ python scripts/init.py --preset preset-python --non-interactive \
 | preset-python | core + git-convention + testing + code-review + security + lang-python |
 | preset-cpp | core + git-convention + testing + code-review + security + lang-cpp |
 | preset-shell | core + git-convention + testing + code-review + security + lang-shell |
+| preset-rust | core + git-convention + testing + code-review + security + lang-rust |
 
 ## 开发
 

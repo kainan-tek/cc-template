@@ -1,0 +1,4 @@
+repo: https://github.com/rust-lang/rustfmt
+rev: v1.8.0
+hooks:
+  - id: rustfmt

@@ -349,6 +349,21 @@ CLAUDE.md 行为准则基于 Andrej Karpathy 的 LLM 编码观察，四个原则
 | templates | 脚本模板（含参数解析、日志、错误处理骨架） |
 | depends | core |
 
+### lang-rust
+
+| 项目 | 内容 |
+|------|------|
+| type | language |
+| snippets (coding-standards, order=100) | 项目结构（src/lib.rs 或 src/main.rs）、cargo fmt 格式化、cargo clippy 静态检查、命名规范、文档注释 |
+| snippets (testing, order=100) | 测试位置（#[cfg(test)] mod tests）、测试函数命名、断言宏 |
+| config/settings.json.snippet | 允许 `Bash(cargo)`、`Bash(cargo test)`、`Bash(cargo fmt)`、`Bash(cargo clippy)` |
+| pre_commit_hooks | rustfmt 格式化、clippy 静态检查 |
+| gitignore_entries | `target/`、`Cargo.lock`、`**/*.rs.bk` |
+| config/commands | `/cargo-test`：运行 cargo test |
+| templates | Cargo.toml 骨架、rustfmt.toml |
+| variables | `edition`（默认 2021，可选 2024） |
+| depends | core |
+
 ---
 
 ## Slash Commands 命名规范
@@ -478,6 +493,7 @@ python scripts/init.py --preset preset-python --non-interactive --var PROJECT_NA
 | preset-python | core + git-convention + testing + code-review + security + lang-python |
 | preset-cpp | core + git-convention + testing + code-review + security + lang-cpp |
 | preset-shell | core + git-convention + testing + code-review + security + lang-shell |
+| preset-rust | core + git-convention + testing + code-review + security + lang-rust |
 
 ---
 

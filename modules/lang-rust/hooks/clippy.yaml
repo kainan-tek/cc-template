@@ -1,0 +1,4 @@
+repo: https://github.com/rust-lang/rust-clippy
+rev: v0.1.85
+hooks:
+  - id: clippy

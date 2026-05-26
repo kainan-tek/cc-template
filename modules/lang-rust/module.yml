@@ -1,0 +1,41 @@
+name: lang-rust
+version: 1.0.0
+description: Rust 开发规范模块
+type: language
+depends: [core]
+
+sections:
+  - slot: coding-standards
+    file: snippets/coding-standards.md
+    order: 100
+  - slot: testing
+    file: snippets/testing.md
+    order: 100
+
+variables:
+  - name: edition
+    prompt: "Rust edition"
+    default: "2021"
+    choices: ["2021", "2024"]
+
+templates:
+  - source: templates/Cargo.toml
+    target: Cargo.toml
+  - source: templates/rustfmt.toml
+    target: rustfmt.toml
+
+settings:
+  file: config/settings.json.snippet
+
+pre_commit_hooks:
+  - file: hooks/rustfmt.yaml
+  - file: hooks/clippy.yaml
+
+gitignore_entries:
+  - "target/"
+  - "Cargo.lock"
+  - "**/*.rs.bk"
+
+commands:
+  - name: cargo-test
+    file: config/commands/cargo-test.md
